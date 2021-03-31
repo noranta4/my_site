@@ -10,7 +10,7 @@ title: fastpages
 description: An easy to use blogging platform with support for Jupyter Notebooks.
 github_username: noranta4
 # you can comment the below line out if your repo name is not different than your baseurl
-github_repo: "norelli.github.io"
+github_repo: "my_site"
 
 # OPTIONAL: override baseurl and url if using a custom domain
 # Note: leave out the trailing / from this value. 
