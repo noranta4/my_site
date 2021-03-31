@@ -39,8 +39,8 @@ baseurl: ""  #"/norelli.github.io" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: fastdotai
-    github: fastai
+    twitter: noranta4
+    github: noranta4
 
 # Set this to true to get LaTeX math equation support
 use_math: true
