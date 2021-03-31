@@ -4,7 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-<img align="left" src="../images/profilo0.jpg" width="210"> 
+<img align="left" src="../images/profilob.jpg" width="210"> 
 
 I started my PhD in AI at the Sapienza University of Rome, CS department in late 2019. I work in the [GLADIA](https://gladia.di.uniroma1.it/) research group advised by [Emanuele Rodolà](https://scholar.google.com/citations?user=-EH4wBYAAAAJ&hl=en).
 
