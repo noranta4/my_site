@@ -1,1 +1,1 @@
-Sitemap: https://noranta4.github.io/norelli.github.io/sitemap.xml
+Sitemap: noranta4.com/sitemap.xml
