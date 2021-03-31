@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About Me
+title: Antonio Norelli
 permalink: /about/
 ---
 
@@ -17,7 +17,9 @@ My personal search for an answer today is focused on the fundamental nature of k
 
 My current research interests include two great challenges of deep learning, namely the data/computation bottlenecks and the generalization gaps. Today my best bet to solve these challenges involves including natural language in the neural pipeline.
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+---
+
+This website is powered by [fastpages](https://github.com/fastai/fastpages) [^1].
 
 
 
