@@ -1,7 +1,5 @@
 ---
 layout: page
-title: Antonio Norelli
-permalink: /about/
 ---
 
 <img align="left" src="../images/profilob.jpg" width="210"> 
