@@ -10,7 +10,7 @@ title: Teaching to machines - Antonio Norelli
 description: Thoughts from my journey in AI research
 github_username: noranta4
 # you can comment the below line out if your repo name is not different than your baseurl
-github_repo: "my_site"
+# github_repo: "my_site"
 
 # OPTIONAL: override baseurl and url if using a custom domain
 # Note: leave out the trailing / from this value. 
@@ -37,13 +37,13 @@ url: "noranta4.com" # "https://noranta4.github.io" # the base hostname & protoco
 baseurl: ""  #"/norelli.github.io" # the subpath of your site, e.g. "/blog".
 
 # Github and twitter are optional:
-minima:
+# minima:
 #   social_links:
 #     twitter: noranta4
 #     github: noranta4
-   social_links:
-  - { platform: github, user_url: "https://github.com/noranta4/" }
-  - { platform: twitter, user_url: "https://twitter.com/noranta4" }
+#    social_links:
+#   - { platform: github, user_url: "https://github.com/noranta4/" }
+#   - { platform: twitter, user_url: "https://twitter.com/noranta4" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
