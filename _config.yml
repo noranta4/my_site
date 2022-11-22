@@ -37,13 +37,13 @@ url: "noranta4.com" # "https://noranta4.github.io" # the base hostname & protoco
 baseurl: ""  #"/norelli.github.io" # the subpath of your site, e.g. "/blog".
 
 # Github and twitter are optional:
-# minima:
+minima:
 #   social_links:
 #     twitter: noranta4
 #     github: noranta4
-#    social_links:
-#   - { platform: github, user_url: "https://github.com/noranta4/" }
-#   - { platform: twitter, user_url: "https://twitter.com/noranta4" }
+  social_links:
+    - { platform: github, user_url: "https://github.com/noranta4/" }
+    - { platform: twitter, user_url: "https://twitter.com/noranta4" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
