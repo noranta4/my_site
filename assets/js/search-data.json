@@ -1,22 +1,11 @@
 {
   
-    
-        "post0": {
-            "title": "Alien_llm",
-            "content": "Alien as LLM . I was thinking about the following problem: there is an alien that knows a lot about our world, and from whom we would like to learn, but we don’t know its language. Can we obtain what we want just through textual interaction with it? . An intriguing model of this problem is the following: we take a trained GPT, it knows quite some facts about the world. Then we permute at random the map of its tokens, so “the” may go in “33”, “???” in “beautiful.” and so on for all ~100k tokens. We can still interact with this GPT, but the reply to an English prompt would be all messed up. . The problem is: having only the possibility to interact with this scrambled GPT, can we recover any information of interest? For example where Michael Collins, the famous astronaut, was born. Or how many legs a lobster has. . We know that it knows because we would get the right answer with the standard GPT. Following the permutation map, this answer could be given also by the scrambled GPT. How can we obtain it? And even if we obtain it, can we recognize it to be what we are looking for? . We don’t know the right answer in advance, nor the permutation map. And I would say that we also cannot assume to have access to the original GPT or its training data, and we don’t know the tokenizer dictionary. We can just interact with the scrambled GPT using a keyboard. . Can we learn something about the world from this alien? .",
-            "url": "noranta4.com/2025/01/13/alien_llm.html",
-            "relUrl": "/2025/01/13/alien_llm.html",
-            "date": " • Jan 13, 2025"
-        }
-        
-    
-  
 
   
   
 
   
-      ,"page1": {
+      "page1": {
           "title": "",
           "content": ". I started my PhD in AI at the Sapienza University of Rome, CS department in late 2019. I work in the GLADIA research group advised by Emanuele Rodolà. . Before joining the group, my studies have embraced two big fields, physics and computer science, and have been contaminated by many others, thanks to the SSAS interdisciplinary honor program. . . What makes us humans? My personal search for an answer today is focused on the fundamental nature of knowledge and what makes learning possible. . My current research interests include two great challenges of deep learning, namely the data/computation bottlenecks and the generalization gaps. Today my best bet to solve these challenges involves including natural language in the neural pipeline. . . This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
           "url": "noranta4.com/_pages/aboutOLD.html",
