@@ -1,0 +1,14 @@
+<h2 id="alien-as-llm">Alien as LLM</h2>
+
+<p>I was thinking about the following problem: there is an alien that knows a lot about our world, and from whom we would like to learn, but we don’t know its language. Can we obtain what we want just through textual interaction with it?</p>
+
+<p>An intriguing model of this problem is the following: we take a trained GPT, it knows quite some facts about the world. Then we permute at random the map of its tokens, so “the” may go in “33”, “???” in “beautiful.” and so on for all ~100k tokens. We can still interact with this GPT, but the reply to an English prompt would be all messed up.</p>
+
+<p>The problem is: having only the possibility to interact with this scrambled GPT, can we recover any information of interest? For example where Michael Collins, the famous astronaut, was born. Or how many legs a lobster has.</p>
+
+<p>We know that it knows because we would get the right answer with the standard GPT. Following the permutation map, this answer could be given also by the scrambled GPT. How can we obtain it? And even if we obtain it, can we recognize it to be what we are looking for?</p>
+
+<p>We don’t know the right answer in advance, nor the permutation map. And I would say that we also cannot assume to have access to the original GPT or its training data, and we don’t know the tokenizer dictionary. 
+We can just interact with the scrambled GPT using a keyboard.</p>
+
+<p>Can we learn something about the world from this alien?</p>
