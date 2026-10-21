@@ -518,4 +518,32 @@ pre code { font-size: 15px !important; }
 
 p code { font-size: 19px; }
 
+.bio { margin-bottom: 15px; }
+
+.bio + hr { clear: both; }
+
+@media (max-width: 600px) { .profile-photo { float: none; display: block; margin-bottom: 15px; } }
+
+.bio > summary { cursor: pointer; display: block; list-style: none; }
+
+.bio > summary::-webkit-details-marker { display: none; }
+
+.bio-more, .bio-less { text-decoration: underline; white-space: nowrap; }
+
+.bio-less, .bio[open] .bio-more { display: none; }
+
+.bio[open] .bio-less { display: inline; }
+
+.bio[open] > summary { margin-bottom: 15px; }
+
+.bio > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+.poster-gallery { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; margin-bottom: 15px; }
+
+.poster-gallery > a { max-width: 100%; }
+
+.poster-gallery img { display: block; max-width: 100%; height: auto; }
+
+#llm-poster { scroll-margin-top: 20px; }
+
 /*# sourceMappingURL=style.css.map */
