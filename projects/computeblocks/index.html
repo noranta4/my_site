@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ComputeBlocks — sandbox di computazione fisica</title>
+<style>
+:root{--bg:#0a111b;--panel:#111b29;--panel2:#141f2c;--border:#243447;--muted:#8da0b6;--text:#e4ebf4;--accent:#71d8bb;--gold:#ffb96a;--pink:#dba7f3;--red:#fb8e8e}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}.app-shell{min-height:100vh;display:flex;flex-direction:column}.header{height:78px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 21px;border-bottom:1px solid var(--border);background:#0e1723;gap:16px}.logo{display:flex;align-items:center;gap:12px;min-width:190px}.logo-mark{font-size:34px;color:var(--accent);line-height:1}.logo strong{display:block;font-weight:760;letter-spacing:-.03em;font-size:21px}.logo span:not(.logo-mark){display:block;font-size:9px;letter-spacing:.11em;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}.presets{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-right:8px}.presets select{background:#1c2a38;color:var(--text);border:1px solid var(--border);border-radius:7px;padding:10px 9px;max-width:178px}.btn{border:1px solid #34485b;background:#1b2a3b;color:#e8f1f8;font-size:12px;font-weight:620;padding:10px 12px;border-radius:8px;transition:background .15s}.btn:hover,.mode-btn:hover,.canvas-btn:hover{background:#2a4053}.btn.primary{background:#286d65;color:#f5fff9;border-color:#399c8a}.btn.primary:hover{background:#348579}.btn.subtle{background:transparent}.btn.full{width:100%;margin-top:10px}.telemetry{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:#243447;border-bottom:1px solid var(--border)}.metric{background:#121e2b;min-height:92px;padding:16px 20px 12px}.metric-label{font-weight:660;font-size:10px;color:#91a7bb;letter-spacing:.12em}.metric-val{font-size:23px;letter-spacing:-.04em;font-weight:660;margin-top:8px;font-variant-numeric:tabular-nums}.metric-sub{font-size:11px;color:var(--muted);margin-top:5px}.track{height:4px;background:#29394a;border-radius:4px;overflow:hidden;margin-top:9px}.track>span{display:block;height:100%;width:0;background:var(--accent);transition:width .1s}.main-grid{flex:1;display:grid;grid-template-columns:220px minmax(330px,1fr) 280px;min-height:595px}.tool-panel,.inspector{background:#111b27;padding:18px 16px;overflow-y:auto;max-height:calc(100vh - 205px)}.tool-panel{border-right:1px solid var(--border)}.inspector{border-left:1px solid var(--border)}.panel-heading{display:flex;justify-content:space-between;align-items:center;color:#aebdca;font-size:10px;font-weight:760;letter-spacing:.105em;margin-bottom:13px}.panel-heading>span:last-child{font-size:10px;color:#6b8094}.panel-heading .tag{color:var(--gold)!important}.hint{color:#91a2b3;font-size:11px;line-height:1.55;margin-bottom:14px}.palette-section{color:#8298ac;font-size:10px;letter-spacing:.13em;font-weight:740;margin:17px 0 7px}.palette-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:5px;border:1px solid transparent;background:transparent;color:#dae6f0;padding:8px;border-radius:8px}.palette-btn:hover,.palette-btn.active{background:#1e3140;border-color:#365668}.palette-icon{flex-shrink:0;display:grid;place-items:center;width:34px;height:34px;border-radius:7px;font-size:11px;font-weight:800;background:#20423e;color:#9befd6;border:1px solid #35584d}.palette-btn.neural .palette-icon{background:#49304d;border-color:#624567;color:#e4bdf8}.palette-btn.hybrid .palette-icon{background:#33443b;color:#ffcf95}.palette-btn span:last-child{display:flex;flex-direction:column;gap:3px}.palette-btn strong{font-weight:690;font-size:12px}.palette-btn small{font-size:10px;color:#839bb1}.panel-sep{height:1px;background:var(--border);margin:18px 0}.tools-row{display:flex;gap:6px;flex-wrap:wrap}.mode-btn{padding:10px 8px;font-size:11px;border-radius:7px;border:1px solid #355063;background:#1c2a37;color:var(--text);flex:1}.mode-btn.active{border-color:var(--accent);color:var(--accent);background:#183332}.panel-note{font-size:11px;line-height:1.6;margin-top:15px;color:#9bb0bf}.panel-note strong{color:#c5dbe5}.work-area{background:#0b1420;display:flex;flex-direction:column;min-width:0}.work-head{flex-shrink:0;height:61px;border-bottom:1px solid #233448;display:flex;align-items:center;justify-content:space-between;padding:0 19px;gap:12px}.workspace-title{display:flex;gap:10px;align-items:center;font-size:13px}.workspace-title small{font-size:11px;color:var(--muted);margin-left:8px}.status-dot{display:block;width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px #45d6b178}.canvas-buttons{display:flex;gap:4px}.canvas-btn{border:1px solid #2a3f52;background:#162435;color:#d7e3ed;padding:7px 10px;border-radius:6px;font-size:12px}.viewport{flex:1;min-height:475px;position:relative;overflow:hidden;touch-action:none;background:radial-gradient(ellipse at 53% 45%,#101d2a 0%,#0b1420 70%)}#world{display:block;width:100%;height:100%;cursor:crosshair;user-select:none;touch-action:none}.view-overlay,.view-scale{position:absolute;bottom:17px;left:17px;background:#111f2ddd;border:1px solid #263d50;color:#9db3c8;font-size:11px;padding:9px 12px;border-radius:7px;pointer-events:none}.view-scale{left:auto;right:14px;background:#12202bb5;color:#819aab}.key{color:var(--accent)}.status-bottom{border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:15px;padding:10px 17px;font-size:11px;color:#aab9c6;min-height:37px}.status-bottom span{letter-spacing:.08em;font-size:9px;color:#667f94}.status-bottom.error #statusText{color:var(--red)}.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px 9px}.fields label,.inspect-field{display:flex;flex-direction:column;gap:6px;font-size:11px;color:#a5b8c9}.fields small{color:#819aad}.fields input,.inspect-input{background:#1a2a3a;border:1px solid #364a5c;border-radius:7px;outline:none;color:#edf5fa;padding:10px;width:100%;font-size:12px;font-variant-numeric:tabular-nums}.fields input:focus,.inspect-input:focus{border-color:var(--accent)}.inspect-content{min-height:135px;color:#9badbd;font-size:12px;line-height:1.55}.inspect-title{font-size:16px;color:var(--text);font-weight:710;margin:0 0 5px}.inspect-kind{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:13px}.inspect-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #223246;font-size:11px}.inspect-row span:last-child{font-variant-numeric:tabular-nums;color:#d7e6eb}.inspect-input{margin:4px 0 8px}.inspect-button{margin:9px 0;width:100%}.breakdown{min-height:120px}.breakdown p{font-size:11px;color:#8fa3b7}.energy-row{display:flex;justify-content:space-between;gap:6px;color:#adc0cf;font-size:11px;padding:5px 0}.energy-row span:last-child{color:#e3f1f5;font-variant-numeric:tabular-nums}.energy-track{width:100%;height:3px;background:#2b3947;border-radius:3px;overflow:hidden}.energy-track div{background:var(--gold);height:100%}.disclaimer{margin-top:23px;background:#182b33;color:#91b4bd;border-left:3px solid #64adae;font-size:11px;line-height:1.65;padding:12px}.disclaimer strong{color:#c6e4e8}.node-box{cursor:grab}.node-box:active{cursor:grabbing}.node-label{font-weight:720;font-size:14px;fill:#f1f7fe;pointer-events:none}.node-detail{font-size:11px;fill:#90a7bb;pointer-events:none}.node-pin-label{font-size:10px;fill:#8faabc;pointer-events:none}.node-pin{cursor:crosshair}.node-pin:hover{stroke:#fff;stroke-width:3}.wire-hit{cursor:pointer;stroke:transparent;stroke-width:15;fill:none}.wire-vis{fill:none;stroke-linecap:round;pointer-events:none}footer{padding:9px 22px;color:#667f8f;background:#0d1622;font-size:10px;letter-spacing:.035em;border-top:1px solid var(--border)}
+@media(max-width:1100px){.main-grid{grid-template-columns:170px minmax(300px,1fr) 230px}.tool-panel,.inspector{padding:14px 10px}.header{padding:8px 12px}.logo strong{font-size:17px}.presets{margin-right:0}.btn{padding:8px 9px;font-size:11px}}
+@media(max-width:780px){.header{height:auto;flex-wrap:wrap;padding:13px}.top-actions{width:100%;justify-content:flex-start}.telemetry{grid-template-columns:repeat(3,minmax(0,1fr))}.metric{min-height:75px;padding:10px}.metric-val{font-size:19px}.main-grid{display:flex;flex-direction:column}.tool-panel{border-right:0;border-bottom:1px solid var(--border);max-height:none}.tool-panel #palette{display:grid;grid-template-columns:repeat(3,1fr);gap:0px 5px}.tool-panel .palette-section{grid-column:1/-1}.tool-panel .palette-btn{padding:5px}.tool-panel .palette-btn small{display:none}.tool-panel .palette-icon{width:29px;height:29px}.panel-note{display:none}.work-area{height:570px}.inspector{max-height:none;border-left:0;border-top:1px solid var(--border)}.view-overlay{display:none}footer{display:none}}
+
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="header">
+    <div class="logo"><span class="logo-mark">▦</span><div><strong>ComputeBlocks</strong><span>PHYSICAL COMPUTATION SANDBOX · ALPHA</span></div></div>
+    <div class="top-actions">
+      <label class="presets">Esempio
+        <select id="preset">
+          <option value="nand">NAND · logica</option>
+          <option value="adder">Sommatore · 1 bit</option>
+          <option value="spiking">Rete · neuroni spiking</option>
+          <option value="hybrid">Ibrido · conversione</option>
+        </select>
+      </label>
+      <button class="btn primary" id="runBtn" title="Avvia / pausa">▶ Esegui</button>
+      <button class="btn" id="stepBtn" title="Esegui un evento">↦ Evento</button>
+      <button class="btn" id="resetBtn" title="Azzera la simulazione">↻ Reset</button>
+      <button class="btn subtle" id="exportBtn" title="Salva il progetto in JSON">↓ Salva</button>
+      <button class="btn subtle" id="importBtn" title="Apri un progetto JSON">↑ Apri</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+  <section class="telemetry" aria-label="Misure fisiche">
+    <div class="metric"><div class="metric-label">TEMPO SIMULATO</div><div id="metricTime" class="metric-val">0 s</div><div class="track"><span id="timeBar"></span></div></div>
+    <div class="metric"><div class="metric-label">ENERGIA CONSUMATA</div><div id="metricEnergy" class="metric-val">0 J</div><div class="track"><span id="energyBar"></span></div></div>
+    <div class="metric"><div class="metric-label">POTENZA MEDIA</div><div id="metricPower" class="metric-val">0 W</div><div class="metric-sub" id="metricPeak">picco —</div></div>
+    <div class="metric"><div class="metric-label">MATERIA INSTALLATA</div><div id="metricMass" class="metric-val">0 g</div><div class="track"><span id="massBar"></span></div></div>
+    <div class="metric"><div class="metric-label">ATTIVITÀ</div><div id="metricEvents" class="metric-val">0 eventi</div><div class="metric-sub" id="metricSpikes">0 spike · 0 blocchi</div></div>
+  </section>
+  <div class="main-grid">
+    <aside class="tool-panel">
+      <div class="panel-heading"><span>LIBRERIA DI BLOCCHI</span><span>12</span></div>
+      <div class="hint">Scegli un componente, poi clicca sullo spazio di costruzione.</div>
+      <div id="palette"></div>
+      <div class="panel-sep"></div>
+      <div class="tools-row">
+        <button class="mode-btn active" id="selectMode" data-mode="select">↖ Seleziona</button>
+        <button class="mode-btn" id="wireMode" data-mode="wire">⌁ Collega</button>
+      </div>
+      <div class="panel-note"><strong>Collegamenti</strong><br>Seleziona «Collega», clicca sull'uscita a destra di un blocco e poi sull'ingresso a sinistra di un altro.</div>
+    </aside>
+    <main class="work-area">
+      <div class="work-head">
+        <div class="workspace-title"><span class="status-dot"></span><strong id="workspaceName">NAND · logica</strong><small id="workspaceStatus">Pronto</small></div>
+        <div class="canvas-buttons"><button class="canvas-btn" id="zoomOut" title="Riduci">−</button><button class="canvas-btn" id="zoomReset" title="Vista iniziale">100%</button><button class="canvas-btn" id="zoomIn" title="Ingrandisci">+</button><button class="canvas-btn" id="clearBtn" title="Svuota">Svuota</button></div>
+      </div>
+      <div class="viewport" id="viewport"><svg id="world" role="img" aria-label="Circuito interattivo a blocchi" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="view-overlay" id="viewOverlay"><span class="key">Seleziona</span> e clicca sugli interruttori per cambiare ingresso</div>
+        <div class="view-scale" id="viewScale">Griglia schematico · lunghezze modellate</div>
+      </div>
+      <div class="status-bottom"><div id="statusText">Modello fisico dimostrativo, non calibrato.</div><span>EVENT-DRIVEN · DIGITALE + SPIKING</span></div>
+    </main>
+    <aside class="inspector">
+      <div class="panel-heading"><span>VINCOLI FISICI</span><span class="tag">HARD</span></div>
+      <div class="fields"><label>Potenza massima <small>mW</small><input type="number" min="0.000001" step="any" id="limitP" value="1"></label>
+        <label>Tempo massimo <small>ms</small><input type="number" min="0.000001" step="any" id="limitT" value="200"></label>
+        <label>Massa massima <small>µg</small><input type="number" min="0.000001" step="any" id="limitM" value="10"></label>
+        <label>Finestra di potenza <small>µs</small><input type="number" min="0.000001" step="any" id="limitWin" value="1"></label></div>
+      <button class="btn full" id="applyLimits">Applica i vincoli</button>
+      <div class="panel-sep"></div>
+      <div class="panel-heading"><span>ISPEZIONE</span><span id="inspectBadge">—</span></div>
+      <div id="inspect" class="inspect-content"><p>Seleziona un blocco o un collegamento per vedere proprietà e consumi.</p></div>
+      <div class="panel-sep"></div>
+      <div class="panel-heading"><span>ENERGIA DISSIPATA</span><span>J</span></div>
+      <div id="breakdown" class="breakdown"><p>Avvia il circuito per vedere le fonti di consumo.</p></div>
+      <div class="disclaimer"><strong>Avvertenza scientifica</strong><br>Parametri di transistor, sinapsi e fili: valori illustrativi. Questo non è ancora un simulatore SPICE né un modello biofisico calibrato di bombo.</div>
+    </aside>
+  </div>
+  <footer>ComputeBlocks v0.1 · Unità SI · Geometria dei collegamenti inclusa · Nessun collegamento verso servizi esterni</footer>
+</div>
+<script>
+/* ComputeBlocks: illustrative hybrid event-driven digital + spiking sandbox.
+   The parameter values in SPECS and wire models are HYPOTHETICAL and NOT
+   measurements of semiconductor devices or insect neurons.  Intended as an
+   extensible first prototype with physically dimensioned units, not SPICE.
+*/
+(function (root) {
+  'use strict';
+
+  const SPECS = {
+    switch: { name:'Interruttore', family:'digital', inputs:[], outputs:['q'],
+      outDomain:'logic', mass_g:8e-10, idle_w:1e-12, energy_j:2e-15, delay_s:0, cap_f:1e-15 },
+    clock: { name:'Clock', family:'digital', inputs:[], outputs:['q'],
+      outDomain:'logic', mass_g:8e-10, idle_w:2e-11, energy_j:4e-15, delay_s:0, cap_f:2e-15, frequency_hz:1e4 },
+    nand: { name:'NAND', family:'digital', inputs:['a','b'], outputs:['q'],
+      inDomain:'logic', outDomain:'logic', mass_g:2e-10, idle_w:1e-12, energy_j:1e-15, delay_s:2e-9, cap_f:3e-15 },
+    not: { name:'NOT', family:'digital', inputs:['a'], outputs:['q'],
+      inDomain:'logic', outDomain:'logic', mass_g:1e-10, idle_w:7e-13, energy_j:8e-16, delay_s:1.5e-9, cap_f:2e-15 },
+    and: { name:'AND', family:'digital', inputs:['a','b'], outputs:['q'],
+      inDomain:'logic', outDomain:'logic', mass_g:3e-10, idle_w:1.5e-12, energy_j:2e-15, delay_s:3e-9, cap_f:5e-15 },
+    xor: { name:'XOR', family:'digital', inputs:['a','b'], outputs:['q'],
+      inDomain:'logic', outDomain:'logic', mass_g:5e-10, idle_w:2.5e-12, energy_j:3e-15, delay_s:4e-9, cap_f:8e-15 },
+    register: { name:'Registro D', family:'digital', inputs:['d','clk'], outputs:['q'],
+      inDomain:'logic', outDomain:'logic', mass_g:7e-10, idle_w:3e-12, energy_j:5e-15, delay_s:4e-9, cap_f:6e-15 },
+    probe: { name:'Sonda', family:'digital', inputs:['in'], outputs:[],
+      inDomain:'logic', mass_g:1e-10, idle_w:1e-12, energy_j:1e-15, delay_s:0, cap_f:0 },
+    pulse: { name:'Generatore spike', family:'neural', inputs:[], outputs:['spk'],
+      outDomain:'spike', mass_g:9e-10, idle_w:1e-10, energy_j:5e-11, delay_s:0, cap_f:0, frequency_hz:100 },
+    neuron: { name:'Neurone LIF', family:'neural', inputs:['exc'], outputs:['spk'],
+      inDomain:'spike', outDomain:'spike', mass_g:1e-9, idle_w:1e-9,
+      energy_j:1e-10, synapse_j:1e-12, delay_s:0.001, cap_f:0, tau_s:0.030, threshold:1 },
+    spikeprobe: { name:'Sonda spike', family:'neural', inputs:['in'], outputs:[],
+      inDomain:'spike', mass_g:1e-10, idle_w:2e-12, energy_j:1e-12, delay_s:0, cap_f:0 },
+    encoder: { name:'Logic → Spike', family:'hybrid', inputs:['in'], outputs:['spk'],
+      inDomain:'logic', outDomain:'spike', mass_g:2e-9, idle_w:5e-10, energy_j:2e-11, delay_s:1e-5, cap_f:0 },
+    decoder: { name:'Spike → Logic', family:'hybrid', inputs:['in'], outputs:['q'],
+      inDomain:'spike', outDomain:'logic', mass_g:2e-9, idle_w:5e-10, energy_j:2e-11, delay_s:1e-5, cap_f:2e-15 }
+  };
+
+  const DEFAULT_LIMITS = Object.freeze({
+    power_w: 0.001,
+    time_s: 0.2,
+    mass_g: 1e-5,
+    voltage_v: 1,
+    power_window_s: 1e-6,
+    energy_j: null
+  });
+  const PIXEL_TO_UM = 0.5;
+  const WIRE_CAP_PER_UM_F = 0.1e-15;
+  const WIRE_R_PER_UM_OHM = 1.7;
+  const WIRE_CU_CROSS_SECTION_UM2 = 0.01;
+  const CU_DENSITY_G_CM3 = 8.96;
+  const SPIKE_AXON_MASS_G_PER_UM = 4e-12;
+  const SPIKE_AXON_J_PER_UM = 2e-13;
+  const DIGITAL_SOURCE_SPEED_M_S = 2e8;
+  const AXON_SPEED_M_S = 1;
+
+  class MinHeap {
+    constructor() { this.a = []; }
+    get length() { return this.a.length; }
+    peek() { return this.a[0] || null; }
+    push(v) {
+      let a=this.a, i=a.length; a.push(v);
+      while(i>0) { let p=(i-1)>>1; if(compare(a[p],v)<=0) break; a[i]=a[p]; i=p; }
+      a[i]=v;
+    }
+    pop() {
+      let a=this.a;if (!a.length) return null;
+      const ret=a[0], tail=a.pop(); if(!a.length) return ret;
+      let i=0; while(2*i+1<a.length) {
+        let c=2*i+1; if(c+1<a.length && compare(a[c+1],a[c])<0) c++;
+        if(compare(tail,a[c])<=0) break;
+        a[i]=a[c];i=c;
+      }
+      a[i]=tail;return ret;
+    }
+  }
+  function compare(a,b) {return a.t-b.t || a.seq-b.seq;}
+  function checkNumber(x, min, max, label){
+    if (!Number.isFinite(x) || x<min || x>max) throw new Error(label+' fuori intervallo');
+    return x;
+  }
+  function portDomain(node, direction){
+    const spec=SPECS[node.type];return direction==='out' ? spec.outDomain : spec.inDomain;
+  }
+  function wireMetrics(fromNode,toNode,domain){
+    const x1=fromNode.x+148,y1=fromNode.y+41,x2=toNode.x,y2=toNode.y+41;
+    const length_um=Math.max(1,Math.hypot(x2-x1,y2-y1)*PIXEL_TO_UM);
+    if(domain==='spike') return {
+      length_um, mass_g:length_um*SPIKE_AXON_MASS_G_PER_UM,
+      delay_s:0.001+length_um*1e-6/AXON_SPEED_M_S,
+      event_energy_j:length_um*SPIKE_AXON_J_PER_UM
+    };
+    const c=length_um*WIRE_CAP_PER_UM_F,r=length_um*WIRE_R_PER_UM_OHM;
+    return { length_um, mass_g:length_um*WIRE_CU_CROSS_SECTION_UM2*1e-12*CU_DENSITY_G_CM3,
+      delay_s:.5*r*c+length_um*1e-6/DIGITAL_SOURCE_SPEED_M_S,
+      capacitance_f:c, event_energy_j:0 };
+  }
+
+  class Sandbox {
+    constructor(limits={}) {
+      this.limits={...DEFAULT_LIMITS,...limits};
+      this.nodes=[]; this.wires=[]; this.nextId=1; this.nextWireId=1;this.reset();
+    }
+    newNode(type,x,y,options={}) {
+      if(!SPECS[type]) throw new Error('Tipo sconosciuto: '+type);
+      checkNumber(x,-1e6,1e6,'x'); checkNumber(y,-1e6,1e6,'y');
+      const spec=SPECS[type];
+      let node={id:this.nextId++,type,x,y,label:options.label||spec.name,
+        frequency_hz:options.frequency_hz ?? spec.frequency_hz ?? null,
+        switchValue:!!options.switchValue, v:0, lastUpdate:0, refractoryUntil:-Infinity,
+        input:{}, output:{}, spikes:0, inputCount:0, recentActivity:-Infinity};
+      if(node.frequency_hz!==null)checkNumber(node.frequency_hz,0.01,1e9,'frequenza');
+      this.nodes.push(node); this.reset();return node;
+    }
+    findNode(id){return this.nodes.find(n=>n.id===id) || null;}
+    findWire(id){return this.wires.find(w=>w.id===id) || null;}
+    addWire(fromId,toId,toPort=null,weight=0.65){
+      const a=this.findNode(fromId),b=this.findNode(toId);
+      if(!a||!b) throw new Error('Nodi inesistenti');
+      if(a.id===b.id) throw new Error('Auto-collegamento non previsto nella demo');
+      const sa=SPECS[a.type],sb=SPECS[b.type];
+      if(!sa.outputs.length||!sb.inputs.length)throw new Error('Porta incompatibile');
+      if(portDomain(a,'out')!==portDomain(b,'in')) throw new Error('Dominî incompatibili: usa un blocco convertitore Logic ↔ Spike');
+      toPort=toPort||sb.inputs[0];
+      if(!sb.inputs.includes(toPort))throw new Error('Porta di ingresso inesistente');
+      if(this.wires.some(w=>w.from===a.id&&w.to===b.id&&w.toPort===toPort))throw new Error('Collegamento già presente');
+      if(sb.inDomain==='logic'&&this.wires.some(w=>w.to===b.id&&w.toPort===toPort))
+        throw new Error('Un ingresso logico non può avere due driver');
+      checkNumber(weight,-5,5,'peso sinaptico');
+      const wire={id:this.nextWireId++,from:fromId,to:toId,fromPort:sa.outputs[0],toPort,weight,domain:sa.outDomain};
+      this.wires.push(wire);this.reset();return wire;
+    }
+    removeNode(id){this.nodes=this.nodes.filter(n=>n.id!==id);
+      this.wires=this.wires.filter(w=>w.from!==id&&w.to!==id);this.reset();}
+    removeWire(id){this.wires=this.wires.filter(w=>w.id!==id);this.reset();}
+    moveNode(id,x,y){const n=this.findNode(id);if(n){n.x=x;n.y=y;this.reset();}}
+    updateSettings(next){
+      const merged={...this.limits,...next};
+      for(let k of ['power_w','time_s','mass_g','voltage_v','power_window_s'])
+        checkNumber(merged[k],1e-20,1e20,k);
+      if(merged.energy_j!==null)checkNumber(merged.energy_j,1e-24,1e20,'energy_j');
+      this.limits=merged;this.reset();
+    }
+    updateFrequency(id,value){const n=this.findNode(id);if(!n||!['clock','pulse'].includes(n.type))return;
+      n.frequency_hz=checkNumber(value,0.01,1e9,'frequenza');this.reset();}
+    updateWeight(id,value){const w=this.findWire(id);if(!w)return;
+      w.weight=checkNumber(value,-5,5,'peso');this.reset();}
+    mass(){return this.nodes.reduce((s,n)=>s+SPECS[n.type].mass_g,0)+
+      this.wires.reduce((s,w)=>s+wireMetrics(this.findNode(w.from),this.findNode(w.to),w.domain).mass_g,0);}
+    idlePower(){return this.nodes.reduce((s,n)=>s+SPECS[n.type].idle_w,0);}
+    reset(){
+      this.time=0;this.energyDynamic=0;this.energyIdle=0;this.powerWindowEnergy=0;
+      this.powerWindowIndex=-1;this.peakWindowW=0;this.eventsProcessed=0;
+      this.spikes=0;this.transitions=0;this.spikeInputs=0;this.seq=0;
+      this.queue=new MinHeap();this.stopped='';this.energyByType={};
+      for(let n of this.nodes){n.input={};n.output={};n.v=0;n.lastUpdate=0;n.refractoryUntil=-Infinity;
+        n.spikes=0;n.inputCount=0;n.recentActivity=-Infinity;
+        for(let p of SPECS[n.type].inputs)n.input[p]=0;
+        for(let p of SPECS[n.type].outputs)n.output[p]=0;
+      }
+      if(this.mass()>this.limits.mass_g) {this.stopped='Massa massima superata';return;}
+      if(this.idlePower()>this.limits.power_w) {this.stopped='Potenza statica superiore al limite';return;}
+      for(let n of this.nodes){
+        if(n.type==='clock'||n.type==='pulse')this.schedule(0,'osc',{id:n.id});
+        else if(n.type==='switch'&&n.switchValue)this.schedule(0,'source',{id:n.id,value:1});
+        else if(['nand','not','and','xor'].includes(n.type))this.schedule(SPECS[n.type].delay_s,'eval',{id:n.id});
+      }
+    }
+    schedule(t,kind,data={}){
+      if(!Number.isFinite(t)||t<0)throw new Error('Tempo evento non valido');
+      this.queue.push({t,kind,...data,seq:this.seq++});
+    }
+    toggle(id){const n=this.findNode(id);if(!n||n.type!=='switch')return;
+      n.switchValue=!n.switchValue;
+      if(this.stopped)this.reset(); else this.schedule(this.time,'source',{id:n.id,value:n.switchValue?1:0});
+    }
+    advance(t){
+      if(t<this.time-1e-15)throw new Error('Evento fuori ordine');
+      if(t>this.limits.time_s+1e-15){
+        const remaining=Math.max(0,this.limits.time_s-this.time);
+        this.energyIdle+=remaining*this.idlePower();
+        this.time=this.limits.time_s;
+        this.stopped='Tempo massimo raggiunto';return false;
+      }
+      const dt=Math.max(0,t-this.time),staticEnergy=dt*this.idlePower();
+      if(this.energyDynamic+this.energyIdle+staticEnergy>this.energyCap()+1e-21){
+        this.stopped='Energia totale esaurita';return false;}
+      this.energyIdle+=staticEnergy;this.time=t;return true;
+    }
+    energyCap(){return Math.min(this.limits.power_w*this.limits.time_s,
+      this.limits.energy_j===null?Infinity:this.limits.energy_j);}
+    charge(j,kind='other'){
+      if(j<=0)return true;
+      if(this.energyDynamic+this.energyIdle+j>this.energyCap()+1e-21){
+        this.stopped='Energia totale esaurita';return false;}
+      const win=this.limits.power_window_s;
+      const idx=Math.floor(this.time/win);
+      if(idx!==this.powerWindowIndex){this.powerWindowIndex=idx;this.powerWindowEnergy=0;}
+      const instant=this.idlePower()+(this.powerWindowEnergy+j)/win;
+      if(instant>this.limits.power_w*(1+1e-12)){
+        this.stopped='Potenza oltre il limite nella finestra di misura';return false;
+      }
+      this.powerWindowEnergy+=j;this.energyDynamic+=j;
+      this.peakWindowW=Math.max(this.peakWindowW,instant);
+      this.energyByType[kind]=(this.energyByType[kind]||0)+j;return true;
+    }
+    setOutput(n,v){
+      v=v?1:0;let port=SPECS[n.type].outputs[0];if(!port||n.output[port]===v)return true;
+      const spec=SPECS[n.type];
+      const energy=spec.outDomain==='logic'?(v?spec.cap_f*this.limits.voltage_v**2:0):
+        (v?spec.energy_j:0);
+      if(!this.charge(energy,spec.outDomain==='spike'?'spike':'switching'))return false;
+      n.output[port]=v;n.recentActivity=this.time;this.transitions++;
+      if(spec.outDomain==='spike'&&v){n.spikes++;this.spikes++;}
+      for(let wire of this.wires){if(wire.from!==n.id)continue;
+        const target=this.findNode(wire.to);
+        const wm=wireMetrics(n,target,wire.domain);
+        this.schedule(this.time+wm.delay_s,'wire',{id:wire.id,value:v});
+      }
+      return true;
+    }
+    process(ev){
+      const n=ev.id!==undefined?this.findNode(ev.id):null;
+      if(ev.kind==='source'){
+        if(n&&!this.charge(SPECS[n.type].energy_j,'source'))return;
+        if(n)this.setOutput(n,ev.value);
+      }else if(ev.kind==='osc'){
+        if(!n)return;
+        const spec=SPECS[n.type],period=1/n.frequency_hz;
+        if(!this.charge(spec.energy_j,'clock'))return;
+        if(n.type==='clock'){
+          const nv=1-n.output.q;this.setOutput(n,nv);
+          this.schedule(this.time+period/2,'osc',{id:n.id});
+        }else{
+          this.setOutput(n,1);
+          this.schedule(this.time+Math.min(0.001,period*0.20),'off',{id:n.id});
+          this.schedule(this.time+period,'osc',{id:n.id});
+        }
+      }else if(ev.kind==='off'){
+        if(n)this.setOutput(n,0);
+      }else if(ev.kind==='eval'){
+        if(!n)return;
+        const sp=SPECS[n.type],a=n.input.a||0,b=n.input.b||0;
+        let out;
+        switch(n.type){
+          case 'nand':out=!(a&&b);break;
+          case 'and':out=a&&b;break;
+          case 'not':out=!a;break;
+          case 'xor':out=!!(a!==b);break;
+          default:return;
+        }
+        if(!this.charge(sp.energy_j,'logic-eval'))return;
+        this.setOutput(n,out?1:0);
+      }else if(ev.kind==='reg'){
+        if(n)this.setOutput(n,ev.value);
+      }else if(ev.kind==='bridge'){
+        if(n)this.setOutput(n,1);
+        if(n)this.schedule(this.time+(n.type==='encoder'?0.001:0.003),'off',{id:n.id});
+      }else if(ev.kind==='wire'){
+        const w=this.findWire(ev.id);if(!w)return;
+        const a=this.findNode(w.from),b=this.findNode(w.to),sp=SPECS[b.type];
+        const wm=wireMetrics(a,b,w.domain);
+        if(w.domain==='logic'&&ev.value){
+          if(!this.charge(wm.capacitance_f*this.limits.voltage_v**2,'wire-charge'))return;
+        }
+        if(w.domain==='spike'&&ev.value){
+          if(!this.charge(wm.event_energy_j,'axon'))return;
+        }
+        b.recentActivity=this.time;
+        if(sp.inDomain==='spike'){
+          if(!ev.value)return;
+          this.spikeInputs++;b.inputCount++;
+          if(b.type==='neuron'){
+            if(!this.charge(sp.synapse_j,'synapse'))return;
+            const dt=Math.max(0,this.time-b.lastUpdate);
+            b.v=b.v*Math.exp(-dt/sp.tau_s);b.lastUpdate=this.time;
+            if(this.time<b.refractoryUntil)return;
+            b.v+=w.weight;
+            if(b.v>=sp.threshold){
+              b.v=0;b.refractoryUntil=this.time+0.003;
+              this.schedule(this.time+sp.delay_s,'bridge',{id:b.id});
+            }
+          } else if(b.type==='decoder'){
+            if(!this.charge(sp.energy_j,'convert'))return;
+            this.schedule(this.time+sp.delay_s,'bridge',{id:b.id});
+          } else if(b.type==='spikeprobe'){
+            if(!this.charge(sp.energy_j,'probe'))return;
+            b.input.in=1;
+          }
+        }else if(sp.inDomain==='logic'){
+          const was=b.input[w.toPort]||0;
+          b.input[w.toPort]=ev.value?1:0;
+          if(was===(ev.value?1:0))return;
+          if(['nand','and','xor','not'].includes(b.type))
+            this.schedule(this.time+sp.delay_s,'eval',{id:b.id});
+          else if(b.type==='register'&&w.toPort==='clk'&&ev.value){
+            if(!this.charge(sp.energy_j,'register-clock'))return;
+            this.schedule(this.time+sp.delay_s,'reg',{id:b.id,value:b.input.d});
+          }else if(b.type==='encoder'&&ev.value){
+            if(!this.charge(sp.energy_j,'convert'))return;
+            this.schedule(this.time+sp.delay_s,'bridge',{id:b.id});
+          }else if(b.type==='probe'){
+            if(!this.charge(sp.energy_j,'probe'))return;
+          }
+        }
+      }
+    }
+    step(){
+      if(this.stopped)return false;
+      const ev=this.queue.pop();if(!ev)return false;
+      if(!this.advance(ev.t)){this.queue.push(ev);return false;}
+      this.eventsProcessed++;
+      this.process(ev);
+      return !this.stopped;
+    }
+    runUntil(t, maxEvents=100000){
+      if(!Number.isFinite(t)||t<this.time)throw new Error('runUntil richiede un tempo futuro');
+      let count=0;
+      while(!this.stopped&&this.queue.length&&this.queue.peek().t<=t&&count<maxEvents){
+        this.step();count++;
+      }
+      if(!this.stopped&&count<maxEvents)this.advance(Math.min(t,this.limits.time_s));
+      return count;
+    }
+    metrics(){
+      const wireMass=this.wires.reduce((s,w)=>s+wireMetrics(this.findNode(w.from),this.findNode(w.to),w.domain).mass_g,0);
+      return {time_s:this.time,energy_j:this.energyDynamic+this.energyIdle,
+        energy_dynamic_j:this.energyDynamic,energy_idle_j:this.energyIdle,
+        mean_power_w:this.time>0?(this.energyDynamic+this.energyIdle)/this.time:0,
+        peak_window_w:this.peakWindowW,
+        idle_power_w:this.idlePower(),mass_g:this.mass(),wire_mass_g:wireMass,
+        events:this.eventsProcessed,spikes:this.spikes,transitions:this.transitions,
+        wires:this.wires.length,blocks:this.nodes.length,
+        stopped:this.stopped,energy_breakdown_j:{...this.energyByType},
+        pending:this.queue.length};
+    }
+    serialize(){
+      return {version:1,limits:{...this.limits},nodes:this.nodes.map(n=>({id:n.id,type:n.type,x:n.x,y:n.y,
+        label:n.label,frequency_hz:n.frequency_hz,switchValue:n.switchValue})),
+        wires:this.wires.map(w=>({...w}))};
+    }
+    load(data){
+      if(!data||!Array.isArray(data.nodes)||!Array.isArray(data.wires))throw new Error('Schema JSON non valido');
+      if(data.nodes.length>2000||data.wires.length>6000)throw new Error('Circuito troppo grande per questa demo');
+      if(data.limits)this.updateSettings(data.limits);
+      this.nodes=[];this.wires=[];this.nextId=1;this.nextWireId=1;
+      const idmap=new Map();
+      for(let n of data.nodes){const nn=this.newNode(n.type,n.x,n.y,n);idmap.set(n.id,nn.id);}
+      for(let w of data.wires)this.addWire(idmap.get(w.from),idmap.get(w.to),w.toPort,w.weight);
+      this.reset();
+    }
+  }
+
+  function buildExample(example='nand', limits=null){
+    const s=new Sandbox(limits||{});
+    if(example==='nand'){
+      let a=s.newNode('switch',85,145,{label:'A',switchValue:true});
+      let b=s.newNode('switch',85,305,{label:'B',switchValue:true});
+      let g=s.newNode('nand',370,225);let p=s.newNode('probe',670,225,{label:'Uscita'});
+      s.addWire(a.id,g.id,'a');s.addWire(b.id,g.id,'b');s.addWire(g.id,p.id);
+    }else if(example==='adder'){
+      let a=s.newNode('switch',70,120,{label:'A',switchValue:true});
+      let b=s.newNode('switch',70,335,{label:'B',switchValue:false});
+      let x=s.newNode('xor',365,142,{label:'Somma (XOR)'});
+      let y=s.newNode('and',365,340,{label:'Riporto (AND)'});
+      let p=s.newNode('probe',680,142,{label:'SOMMA'});
+      let q=s.newNode('probe',680,340,{label:'RIPORTO'});
+      for(let g of [x,y]){s.addWire(a.id,g.id,'a');s.addWire(b.id,g.id,'b');}
+      s.addWire(x.id,p.id);s.addWire(y.id,q.id);
+    }else if(example==='spiking'){
+      let p=s.newNode('pulse',75,220,{label:'Stimolo 120 Hz',frequency_hz:120});
+      let a=s.newNode('neuron',330,220,{label:'Neurone A'});
+      let b=s.newNode('neuron',585,220,{label:'Neurone B'});
+      let q=s.newNode('spikeprobe',835,220,{label:'Spike OUT'});
+      s.addWire(p.id,a.id,'exc',0.65);s.addWire(a.id,b.id,'exc',1.2);s.addWire(b.id,q.id);
+    }else if(example==='hybrid'){
+      let p=s.newNode('clock',60,210,{label:'Clock 100 Hz',frequency_hz:100});
+      let e=s.newNode('encoder',295,210);
+      let n=s.newNode('neuron',530,210);
+      let d=s.newNode('decoder',765,210);
+      let q=s.newNode('probe',1000,210);
+      s.addWire(p.id,e.id);s.addWire(e.id,n.id,'exc',1.1);s.addWire(n.id,d.id);
+      s.addWire(d.id,q.id);
+    }else throw new Error('Esempio inesistente');
+    s.reset();return s;
+  }
+
+  const API={SPECS,DEFAULT_LIMITS,wireMetrics,Sandbox,buildExample};
+  if(typeof module!=='undefined'&&module.exports)module.exports=API;
+  root.ComputeBlocks=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(function(){
+'use strict';
+const {Sandbox,SPECS,buildExample,wireMetrics}=ComputeBlocks;
+let sim=buildExample('nand'),example='nand';let mode='select',wireStart=null,selection=null;
+let playing=false,drag=null,view={x:0,y:0,w:1110,h:705};
+const $=id=>document.getElementById(id);
+const world=$('world');
+const nodeWidth=148,nodeHeight=82;
+let toast='';let toastUntil=0;
+const groups=[
+  ['LOGICA DIGITALE',['switch','clock','nand','not','and','xor','register','probe']],
+  ['RETE NEURALE',['pulse','neuron','spikeprobe']],
+  ['INTERFACCE',['encoder','decoder']]
+];
+const icons={switch:'01',clock:'CLK',nand:'⊼',not:'¬',and:'∧',xor:'⊕',register:'D→Q',probe:'◎',pulse:'✹',neuron:'∑',spikeprobe:'◉',encoder:'→✹',decoder:'✹→'};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmt(v,unit){
+  if(!Number.isFinite(v))return '—';if(v===0)return '0 '+unit;
+  const x=Math.abs(v),scales=[['T',1e12],['G',1e9],['M',1e6],['k',1e3],['',1],['m',1e-3],['µ',1e-6],['n',1e-9],['p',1e-12],['f',1e-15],['a',1e-18]];
+  const z=scales.find(([,a])=>x>=a*0.999999)||['',1];
+  return Number((v/z[1]).toPrecision(3)).toLocaleString('it-IT')+' '+z[0]+unit;
+}
+function clamp(n,lo,hi){return Math.max(lo,Math.min(hi,n));}
+function point(e){
+  const p=world.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+  const matrix=world.getScreenCTM();return matrix?p.matrixTransform(matrix.inverse()):{x:0,y:0};
+}
+function portPos(n,port,type){
+  const inputs=SPECS[n.type].inputs;
+  const i=Math.max(0,inputs.indexOf(port));
+  return {x:n.x+(type==='out'?nodeWidth:0),y:n.y+(type==='out'?nodeHeight/2:inputs.length===1?nodeHeight/2:inputs.length===2?28+26*i:nodeHeight*(i+1)/(inputs.length+1))};
+}
+function wirePath(w){
+  const a=sim.findNode(w.from),b=sim.findNode(w.to);
+  if(!a||!b)return '';
+  const p=portPos(a,w.fromPort,'out'),q=portPos(b,w.toPort,'in');
+  const dx=clamp(Math.abs(q.x-p.x)*.48,37,140);
+  return `M ${p.x} ${p.y} C ${p.x+dx} ${p.y} ${q.x-dx} ${q.y} ${q.x} ${q.y}`;
+}
+function buildPalette(){
+  $('palette').innerHTML=groups.map(([title,items])=>
+    `<div class="palette-section">${title}</div>`+items.map(t=>{
+      const s=SPECS[t];return `<button class="palette-btn ${s.family==='neural'?'neural':s.family==='hybrid'?'hybrid':''}" data-type="${t}" title="Inserisci ${esc(s.name)}"><span class="palette-icon">${icons[t]}</span><span><strong>${esc(s.name)}</strong><small>${t==='neuron'?'LIF · 30 ms':t==='nand'?'2 ingressi':t==='register'?'D / CLK':s.family==='hybrid'?'Costo di conversione':s.family==='neural'?'eventi sinaptici':'circuito fisico'}</small></span></button>`;
+    }).join('')).join('');
+  $('palette').addEventListener('click',e=>{const btn=e.target.closest('[data-type]');if(!btn)return;setMode('place:'+btn.dataset.type);});
+}
+function setMode(m){mode=m;wireStart=null;
+  document.querySelectorAll('.palette-btn').forEach(b=>b.classList.toggle('active',m==='place:'+b.dataset.type));
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',m===b.dataset.mode));
+  $('viewOverlay').innerHTML=m==='wire'?'<span class="key">Collega</span> uscita → ingresso (puntini sui blocchi)':m.startsWith('place:')?'<span class="key">Posiziona:</span> '+esc(SPECS[m.split(':')[1]].name):'<span class="key">Seleziona</span> e clicca sugli interruttori per cambiare ingresso';
+  render();
+}
+function notice(t){toast=t;toastUntil=Date.now()+4200;renderStatus();}
+function select(item){selection=item;inspector();render();}
+function loadExample(which){playing=false;example=which;sim=buildExample(which,sim.limits);selection=null;wireStart=null;setMode('select');
+  const names={nand:'NAND · logica',adder:'Sommatore · 1 bit',spiking:'Rete · neuroni spiking',hybrid:'Ibrido · conversione'};
+  $('workspaceName').textContent=names[which]||which;$('preset').value=which;
+  view=which==='hybrid'?{x:0,y:0,w:1330,h:750}:{x:0,y:0,w:1110,h:705};
+  drainLogic();inspector();render();
+}
+function color(n){return SPECS[n.type].family==='neural'?'#c18ad9':SPECS[n.type].family==='hybrid'?'#e1b978':'#6bdab7';}
+function render(){
+  world.setAttribute('viewBox',`${view.x} ${view.y} ${view.w} ${view.h}`);
+  const grid=25;
+  let html=`<defs><pattern id="gridDots" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#273a4b"/></pattern><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>
+  <rect x="-5000" y="-5000" width="12000" height="12000" fill="url(#gridDots)"/>`;
+  for(const w of sim.wires){
+    const p=wirePath(w),a=sim.findNode(w.from),active=!!a.output[w.fromPort];
+    const selected=selection?.kind==='wire'&&selection.id===w.id;
+    const base=w.domain==='spike'?'#905aa7':'#3a7182';
+    const bright=w.domain==='spike'?'#e2b3ff':'#7aefd5';
+    html+=`<g data-wire="${w.id}"><path class="wire-vis" d="${p}" stroke="${selected?'#faca88':active?bright:base}" stroke-width="${selected?4:active?3:2.3}" ${active?'filter="url(#glow)"':''}/><path class="wire-vis" d="${p}" stroke="${selected?'#faca88':active?bright:base}" stroke-width="${selected?3:2}"/><path class="wire-hit" d="${p}" data-wire="${w.id}"/></g>`;
+  }
+  for(const n of sim.nodes){
+    const sp=SPECS[n.type],sel=selection?.kind==='node'&&selection.id===n.id;
+    const part=sp.family==='neural'?'neural':sp.family==='hybrid'?'hybrid':'digital';
+    const stroke=sel?'#ffce89':wireStart===n.id?'#f5b96f':part==='neural'?'#704e7a':part==='hybrid'?'#736441':'#315362';
+    const fill=part==='neural'?'#2a2036':part==='hybrid'?'#263039':'#152638';
+    let state=n.type==='switch'?'INGRESSO · '+(n.output.q?'1':'0'):
+      n.type==='clock'?fmt(n.frequency_hz,'Hz')+' · '+(n.output.q?'HIGH':'LOW'):
+      n.type==='pulse'?fmt(n.frequency_hz,'Hz')+' · '+n.spikes+' spike':
+      n.type==='neuron'?'V = '+n.v.toFixed(2)+' θ · '+n.spikes+' spike':
+      n.type==='probe'?'LETTO · '+(n.input.in?'1':'0'):
+      n.type==='spikeprobe'?'EVENTI · '+n.inputCount:n.type==='register'?'Q = '+n.output.q:
+      sp.outputs.length?'USCITA · '+n.output[sp.outputs[0]]:'INTERFACCIA';
+    const lead=n.type==='switch'&&n.output.q||n.type==='probe'&&n.input.in||n.type==='neuron'&&n.recentActivity>=sim.time-.02||n.type==='spikeprobe'&&n.recentActivity>=sim.time-.02;
+    const c=color(n);
+    html+=`<g data-node="${n.id}" class="node-box"><rect x="${n.x}" y="${n.y}" width="${nodeWidth}" height="${nodeHeight}" rx="11" fill="${fill}" stroke="${stroke}" stroke-width="${sel?2.6:1.5}"/><rect x="${n.x+12}" y="${n.y+15}" width="28" height="28" rx="7" fill="${part==='neural'?'#473050':part==='hybrid'?'#514b34':'#24413e'}"/><text x="${n.x+26}" y="${n.y+34}" text-anchor="middle" font-size="${icons[n.type].length>2?9:13}" font-weight="700" fill="${c}" pointer-events="none">${icons[n.type]}</text><text class="node-label" x="${n.x+48}" y="${n.y+31}" font-size="${n.label.length>12?12:14}">${esc(n.label.length>18?n.label.slice(0,18)+'…':n.label)}</text><text class="node-detail" x="${n.x+13}" y="${n.y+66}">${esc(state)}</text><circle cx="${n.x+nodeWidth-12}" cy="${n.y+12}" r="4" fill="${lead?c:'#374a59'}" />`;
+    for(const inp of sp.inputs){const pos=portPos(n,inp,'in');
+      html+=`<circle class="node-pin" data-port="in" data-node="${n.id}" data-name="${inp}" cx="${pos.x}" cy="${pos.y}" r="7" fill="#0e1c29" stroke="${c}" stroke-width="2"/><text class="node-pin-label" text-anchor="end" x="${pos.x-12}" y="${pos.y+4}">${inp}</text>`;
+    }
+    for(const out of sp.outputs){const pos=portPos(n,out,'out');
+      html+=`<circle class="node-pin" data-port="out" data-node="${n.id}" data-name="${out}" cx="${pos.x}" cy="${pos.y}" r="7" fill="${n.output[out]?c:'#0e1c29'}" stroke="${c}" stroke-width="2"/>`;
+    }
+    html+='</g>';
+  }
+  world.innerHTML=html;
+  renderTelemetry();renderStatus();
+}
+function renderTelemetry(){
+  const m=sim.metrics(),lim=sim.limits;
+  $('metricTime').textContent=fmt(m.time_s,'s');
+  $('metricEnergy').textContent=fmt(m.energy_j,'J');
+  $('metricPower').textContent=fmt(m.mean_power_w,'W');
+  $('metricPeak').textContent='picco '+fmt(m.peak_window_w,'W');
+  $('metricMass').textContent=fmt(m.mass_g,'g');
+  $('metricEvents').textContent=m.events.toLocaleString('it-IT')+' eventi';
+  $('metricSpikes').textContent=m.spikes+' spike · '+m.blocks+' blocchi';
+  for(const [id,val] of [['timeBar',m.time_s/lim.time_s],['energyBar',m.energy_j/Math.min(lim.power_w*lim.time_s,lim.energy_j||Infinity)],['massBar',m.mass_g/lim.mass_g]]){
+    const el=$(id);el.style.width=clamp(val*100,0,100)+'%';el.style.background=val>=1?'#e57b7b':val>=.8?'#e6b96d':'#71d8bb';
+  }
+  const entries=Object.entries(m.energy_breakdown_j).sort((a,b)=>b[1]-a[1]);
+  const total=m.energy_dynamic_j;
+  $('breakdown').innerHTML=entries.length?entries.slice(0,7).map(([key,v])=>
+    `<div class="energy-row"><span>${esc(key)}</span><span>${fmt(v,'J')}</span></div><div class="energy-track"><div style="width:${clamp(100*v/total,0,100)}%"></div></div>`).join('')+`<div class="energy-row"><span>Corrente statica</span><span>${fmt(m.energy_idle_j,'J')}</span></div>`:
+    '<p>Nessun evento ancora contabilizzato.</p>';
+}
+function renderStatus(){const stopped=sim.stopped;
+  $('workspaceStatus').textContent=stopped?(stopped==='Tempo massimo raggiunto'?'Fine budget':'Vincolo violato'):playing?'Simulazione in corso':sim.queue.length?'In attesa':'Circuito stabile';
+  $('statusText').textContent=stopped?'⛔ '+stopped:toastUntil>Date.now()?toast:'Modello misto a eventi · costi fisici illustrativi · non calibrato';
+  document.querySelector('.status-bottom').classList.toggle('error',!!stopped&&stopped!=='Tempo massimo raggiunto');
+  $('runBtn').textContent=playing?'Ⅱ Pausa':'▶ Esegui';
+}
+function inspector(){
+  const item=selection;
+  if(!item){$('inspectBadge').textContent='—';$('inspect').innerHTML='<p>Seleziona un blocco o un collegamento per vedere proprietà e consumi.</p>';return;}
+  if(item.kind==='wire'){
+    const w=sim.findWire(item.id);if(!w){selection=null;return inspector();}
+    const a=sim.findNode(w.from),b=sim.findNode(w.to),m=wireMetrics(a,b,w.domain);
+    $('inspectBadge').textContent='FILAMENTO';
+    $('inspect').innerHTML=`<div class="inspect-title">${esc(a.label)} → ${esc(b.label)}</div><div class="inspect-kind">${w.domain==='spike'?'SINAPSI / ASSONE':'FILO DIGITALE'}</div>
+      <div class="inspect-row"><span>Lunghezza</span><span>${fmt(m.length_um*1e-6,'m')}</span></div>
+      <div class="inspect-row"><span>Massa</span><span>${fmt(m.mass_g,'g')}</span></div>
+      <div class="inspect-row"><span>Ritardo</span><span>${fmt(m.delay_s,'s')}</span></div>
+      ${w.domain==='spike'?`<label class="inspect-field" style="margin-top:12px">Peso sinaptico<input id="weightInput" class="inspect-input" type="number" step="0.05" min="-5" max="5" value="${w.weight}"></label>`:
+        `<div class="inspect-row"><span>Capacità</span><span>${fmt(m.capacitance_f,'F')}</span></div>`}
+      <button id="removeSelected" class="btn inspect-button">Elimina collegamento</button>`;
+    if(w.domain==='spike')$('weightInput').addEventListener('change',e=>tryDo(()=>sim.updateWeight(w.id,parseFloat(e.target.value))));
+    $('removeSelected').onclick=()=>{sim.removeWire(w.id);selection=null;inspector();render();};
+  }else{
+    const n=sim.findNode(item.id);if(!n){selection=null;return inspector();}
+    const sp=SPECS[n.type];$('inspectBadge').textContent='BLOCCO #'+n.id;
+    $('inspect').innerHTML=`<div class="inspect-title">${esc(n.label)}</div><div class="inspect-kind">${esc(sp.family)} · ${esc(n.type)}</div>
+      <div class="inspect-row"><span>Massa</span><span>${fmt(sp.mass_g,'g')}</span></div>
+      <div class="inspect-row"><span>Potenza statica</span><span>${fmt(sp.idle_w,'W')}</span></div>
+      <div class="inspect-row"><span>Ritardo interno</span><span>${fmt(sp.delay_s,'s')}</span></div>
+      <div class="inspect-row"><span>Energia/evento base</span><span>${fmt(sp.energy_j,'J')}</span></div>
+      ${n.type==='neuron'?`<div class="inspect-row"><span>Potenziale (θ=1)</span><span>${n.v.toFixed(3)}</span></div><div class="inspect-row"><span>Spike generati</span><span>${n.spikes}</span></div><div class="inspect-row"><span>Costante τ</span><span>${fmt(sp.tau_s,'s')}</span></div>`:''}
+      ${['clock','pulse'].includes(n.type)?`<label class="inspect-field" style="margin-top:12px">Frequenza (Hz)<input id="freqInput" class="inspect-input" type="number" step="any" min="0.01" value="${n.frequency_hz}"></label>`:''}
+      ${n.type==='switch'?`<button id="toggleSelected" class="btn inspect-button">Interruttore: ${n.switchValue?'ON':'OFF'} — clicca per cambiare</button>`:''}
+      <button id="removeSelected" class="btn inspect-button">Elimina blocco</button>`;
+    if(['clock','pulse'].includes(n.type))$('freqInput').addEventListener('change',e=>tryDo(()=>sim.updateFrequency(n.id,Number(e.target.value))));
+    if(n.type==='switch')$('toggleSelected').onclick=()=>{sim.toggle(n.id);drainLogic();inspector();render();};
+    $('removeSelected').onclick=()=>{sim.removeNode(n.id);selection=null;inspector();render();};
+  }
+}
+function tryDo(fn){try{fn();playing=false;inspector();render();}catch(e){notice(e.message);}}
+function drainLogic(){
+  // For combinational circuits, settle events promptly. Do not auto-advance
+  // into future oscillator ticks or a 0.2 s neural run.
+  let limit=sim.time+1e-6,i=0;
+  while(!sim.stopped&&sim.queue.length&&sim.queue.peek().t<=limit&&i++<1000)sim.step();
+}
+function canvasDown(e){
+  if(e.button!==0)return;
+  const where=e.target, p=point(e);
+  if(mode.startsWith('place:')){
+    const type=mode.slice(6);try{
+      const n=sim.newNode(type,Math.round((p.x-nodeWidth/2)/25)*25,Math.round((p.y-nodeHeight/2)/25)*25);
+      select({kind:'node',id:n.id});notice('Blocco inserito · '+SPECS[type].name);
+    }catch(err){notice(err.message);}return;
+  }
+  const port=where.closest('[data-port]');
+  if(port&&mode==='wire'){
+    const n=sim.findNode(Number(port.dataset.node));
+    if(port.dataset.port==='out'){
+      wireStart=n.id;notice('Uscita selezionata · ora clicca su un ingresso');render();
+    }else if(wireStart!==null){
+      try{
+        const w=sim.addWire(wireStart,n.id,port.dataset.name);
+        wireStart=null;selection={kind:'wire',id:w.id};inspector();render();
+      }catch(err){notice(err.message);}
+    }else notice('Seleziona prima una porta di uscita');
+    return;
+  }
+  if(mode==='wire'){
+    const group=where.closest('[data-node]');
+    if(group){const id=Number(group.dataset.node),n=sim.findNode(id);
+      if(wireStart===null&&SPECS[n.type].outputs.length){wireStart=id;notice('Selezionato '+n.label+' · scegli ingresso');}
+      else if(wireStart!==null&&SPECS[n.type].inputs.length){
+        const available=SPECS[n.type].inputs.find(p=>!sim.wires.some(w=>w.to===id&&w.toPort===p))||SPECS[n.type].inputs[0];
+        try{const w=sim.addWire(wireStart,id,available);wireStart=null;selection={kind:'wire',id:w.id};inspector();}catch(err){notice(err.message);}
+      }
+      render();return;
+    }
+    wireStart=null;render();return;
+  }
+  const group=where.closest('[data-node]');
+  if(group){const id=Number(group.dataset.node),n=sim.findNode(id);
+    selection={kind:'node',id};
+    drag={id,px:p.x,py:p.y,ox:n.x,oy:n.y,moved:false};
+    try{world.setPointerCapture(e.pointerId);}catch(_){/* Capture optional */}
+    inspector();render();return;
+  }
+  const wire=where.closest('[data-wire]');
+  if(wire){selection={kind:'wire',id:Number(wire.dataset.wire)};inspector();render();return;}
+  selection=null;inspector();render();
+}
+function canvasMove(e){if(!drag)return;
+  const p=point(e),n=sim.findNode(drag.id);if(!n)return;
+  const dx=p.x-drag.px,dy=p.y-drag.py;
+  if(Math.abs(dx)>4||Math.abs(dy)>4)drag.moved=true;
+  if(drag.moved){n.x=Math.round((drag.ox+dx)/10)*10;n.y=Math.round((drag.oy+dy)/10)*10;render();}
+}
+function canvasUp(e){
+  if(!drag)return;
+  const d=drag;drag=null;const n=sim.findNode(d.id);
+  if(d.moved){sim.reset();playing=false;render();inspector();}
+  else if(n?.type==='switch'){
+    sim.toggle(n.id);drainLogic();inspector();render();
+  }
+  try{world.releasePointerCapture(e.pointerId);}catch(_){/* Optional */}
+}
+function frame(){
+  if(playing){let k=0;const nmax=380;
+    while(k++<nmax&&!sim.stopped&&sim.queue.length)sim.step();
+    if(sim.stopped||!sim.queue.length)playing=false;
+    render();if(selection)inspector();
+  }
+  requestAnimationFrame(frame);
+}
+function applyLimits(){
+  try{
+    const p=Number($('limitP').value),t=Number($('limitT').value),m=Number($('limitM').value),w=Number($('limitWin').value);
+    if([p,t,m,w].some(x=>!Number.isFinite(x)||x<=0))throw new Error('Vincoli fisici: inserisci numeri positivi');
+    sim.updateSettings({power_w:p/1000,time_s:t/1000,mass_g:m*1e-6,power_window_s:w*1e-6});
+    playing=false;render();inspector();notice('Vincoli aggiornati');
+  }catch(e){notice(e.message);}
+}
+function downloadJSON(){
+  const data=JSON.stringify(sim.serialize(),null,2);
+  const a=document.createElement('a');const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.href=url;a.download='computeblocks-circuito.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+function init(){
+  buildPalette();
+  $('preset').onchange=e=>loadExample(e.target.value);
+  $('selectMode').onclick=()=>setMode('select');$('wireMode').onclick=()=>setMode('wire');
+  $('runBtn').onclick=()=>{if(sim.stopped){notice('Reimposta il circuito o aumenta i limiti');return;}
+    playing=!playing;render();};
+  $('stepBtn').onclick=()=>{playing=false;sim.step();inspector();render();};
+  $('resetBtn').onclick=()=>{playing=false;sim.reset();inspector();render();};
+  $('clearBtn').onclick=()=>{playing=false;sim=new Sandbox(sim.limits);selection=null;inspector();render();notice('Spazio di costruzione vuoto');};
+  $('applyLimits').onclick=applyLimits;
+  $('exportBtn').onclick=downloadJSON;
+  $('importBtn').onclick=()=>$('importFile').click();
+  $('importFile').onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    try{const data=JSON.parse(await f.text());const ns=new Sandbox();ns.load(data);sim=ns;playing=false;selection=null;inspector();render();notice('Progetto caricato');}
+    catch(err){notice('Importazione: '+err.message);}e.target.value='';
+  };
+  world.addEventListener('pointerdown',canvasDown);
+  world.addEventListener('pointermove',canvasMove);
+  world.addEventListener('pointerup',canvasUp);
+  world.addEventListener('pointercancel',()=>drag=null);
+  $('zoomIn').onclick=()=>zoom(.82);$('zoomOut').onclick=()=>zoom(1.22);$('zoomReset').onclick=()=>{view=example==='hybrid'?{x:0,y:0,w:1330,h:750}:{x:0,y:0,w:1110,h:705};render();};
+  $('viewport').addEventListener('wheel',e=>{
+    e.preventDefault();const center=point(e);zoom(e.deltaY>0?1.12:.89,center);
+  },{passive:false});
+  document.addEventListener('keydown',e=>{
+    const tag=document.activeElement?.tagName;if(tag==='INPUT'||tag==='SELECT')return;
+    if(e.key==='Escape'){wireStart=null;setMode('select');}
+    if((e.key==='Delete'||e.key==='Backspace')&&selection){if(selection.kind==='node')sim.removeNode(selection.id);else sim.removeWire(selection.id);selection=null;inspector();render();}
+    if(e.code==='Space'){e.preventDefault();$('runBtn').click();}
+  });
+  loadExample('nand');frame();
+}
+function zoom(mult,center){
+  center=center||{x:view.x+view.w/2,y:view.y+view.h/2};
+  const nw=clamp(view.w*mult,260,3400);const ratio=nw/view.w;
+  view.x=center.x-(center.x-view.x)*ratio;
+  view.y=center.y-(center.y-view.y)*ratio;
+  view.w=nw;view.h*=ratio;render();
+}
+init();
+})();
+
+</script>
+</body>
+</html>
